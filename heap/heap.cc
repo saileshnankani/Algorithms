@@ -11,7 +11,8 @@ int main(){
         make_pair<int,int>(60,8), make_pair<int,int>(10,8), make_pair<int,int>(40,8), 
         make_pair<int,int>(70,8)
     };
-    Heap<int,int> heap(elements);
+    Heap<> heap(elements);
+    cout<<heap<<endl;
     cout<<heap.getMax().first<<endl;
     cout<<heap<<endl;
     heap.insert(100,-9);

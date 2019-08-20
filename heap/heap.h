@@ -9,7 +9,7 @@
 // largest key having highest priority (maxHeap)
 // Takes in a vector of elements and supports insert, 
 // deleteMax, and getMax operations 
-template<typename K, typename V>
+template<typename K = int, typename V = int>
 class Heap{
 
     std::vector<std::pair<K,V>> elements;
@@ -44,8 +44,7 @@ class Heap{
 
     // bubbles down 
     // Time Complexity: O(n log n)
-    void fix_down(std::size_t index){
-        std::size_t size = getSize();
+    void fix_down(std::size_t index, size_t size){
         while(2*index+1<= size - 1){
             std::size_t lastChild = 2*index+1;
             if(!last(lastChild) && elements[lastChild+1].first > elements[lastChild].first){
@@ -59,6 +58,21 @@ class Heap{
         }
     }  
 
+    // fix_down for just keys
+    void fix_down(std::vector<K> &elements, std::size_t index, size_t size){
+        while(2*index+1< size - 1){
+            std::size_t lastChild = 2*index+1;
+            if(!last(lastChild) && elements[lastChild+1] > elements[lastChild]){
+                lastChild+=1;
+            }
+            if(elements[index] >= elements[lastChild]){
+                break;
+            }
+            std::swap(elements[lastChild] , elements[index]);
+            index = lastChild;
+        }
+    }
+
 
     public:
 
@@ -69,7 +83,7 @@ class Heap{
             std::swap(elements[0],elements[last]);
             std::pair<K,V> max = elements[last];
             elements.pop_back();
-            fix_down(0);
+            fix_down(0, getSize());
             return max;
         }
 
@@ -88,17 +102,52 @@ class Heap{
             fix_up(lastIndex);
         }
 
+        // heap sorting using fix-down for only integers 
+        // Time Complexity: O(n log n)
+        void sort(std::vector<K>& inputElements){
+            size_t n = inputElements.size();
+            while(n>1){
+                // delete the maximum
+                std::cout<<"Before Swapping"<<std::endl;
+                std::cout<<"Swapping elements: 0: "<<inputElements[0]<<" "<<n-1<<": "<<inputElements[n-1]<<std::endl;
+                std::swap(inputElements[0],inputElements[n-1]);
+                std::cout<<"After Swapping"<<std::endl;
+                std::cout<<"Swapped elements: 0: "<<inputElements[0]<<" "<<n-1<<": "<<inputElements[n-1]<<std::endl;
+                for(int i=0; i<inputElements.size(); i++){
+                    std::cout<<inputElements[i]<<" ";
+                }
+                std::cout<<std::endl;
+                n--;
+                fix_down(inputElements, 0,n);
+                for(int i=0; i<inputElements.size(); i++){
+                    std::cout<<inputElements[i]<<" ";
+                }
+                std::cout<<std::endl<<std::endl;
+            }
+        }
+
         // takes in a arbitrary vector of keys and heapifies it
         // Time Complexity: O(n)
         Heap(std::vector<std::pair<K,V>> input) : elements{input}{
+            std::size_t size = getSize();
             std::size_t last = getSize()-1;
             std::size_t lastParent = (last-1)/2;
-            if(last>0){
-                for(std::size_t i = lastParent; i>=0; i--){
-                    fix_down(i);
-                    if(i==0){
-                        break;
-                    }
+            if(size>0 && last>0){
+                for(std::size_t i = lastParent+1; i-- > 0;){
+                    fix_down(i,size);
+                }
+            }
+        }
+
+        // Constructor overloaded to accept no elements.
+        // Useful for sorting
+        Heap(std::vector<K> &inputElements){
+            std::size_t size = inputElements.size();
+            std::size_t last = size-1;
+            std::size_t lastParent = (last-1)/2;
+            if(size>0 && last>0){
+                for (size_t i = lastParent+1; i-- > 0; ) {
+                    fix_down(inputElements, i,size);
                 }
             }
         }

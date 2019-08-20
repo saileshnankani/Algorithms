@@ -61,7 +61,7 @@ void mergeSort(T& A,  int begin, int end, T& temp){
 // heapifies the inputElements and heapSorts it
 template<typename K>
 void heapSort(std::vector<K>& inputElements){
-    Heap<> heap(inputElements);
+    Heap<K> heap(inputElements);
     heap.sort(inputElements);
 }
 
@@ -72,8 +72,10 @@ int main(){
     vector<int> c{25,1,2,-6,3,7,8,1,0,55,1,2,38,152};
     vector<int> temp;
     vector<double> temp2;
-    mergeSort(a,0,a.size()-1,temp);
-    mergeSort(b,0,b.size()-1,temp2);
+    heapSort(a);
+    heapSort(b);
+    // mergeSort(a,0,a.size()-1,temp);
+    // mergeSort(b,0,b.size()-1,temp2);
     heapSort(c);
     print(a);
     print(b);

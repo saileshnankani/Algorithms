@@ -20,8 +20,7 @@ class Heap{
     }
 
     // returns if index is last or not
-    bool last(std::size_t index){
-        std::size_t size = getSize();
+    bool last(std::size_t index, size_t size){
         if(index==size-1){
             return true;
         }
@@ -47,7 +46,7 @@ class Heap{
     void fix_down(std::size_t index, size_t size){
         while(2*index+1<= size - 1){
             std::size_t lastChild = 2*index+1;
-            if(!last(lastChild) && elements[lastChild+1].first > elements[lastChild].first){
+            if(!last(lastChild, getSize()) && elements[lastChild+1].first > elements[lastChild].first){
                 lastChild+=1;
             }
             if(elements[index].first >= elements[lastChild].first){
@@ -60,9 +59,9 @@ class Heap{
 
     // fix_down for just keys
     void fix_down(std::vector<K> &elements, std::size_t index, size_t size){
-        while(2*index+1< size - 1){
+        while(2*index+1 <= size - 1){
             std::size_t lastChild = 2*index+1;
-            if(!last(lastChild) && elements[lastChild+1] > elements[lastChild]){
+            if(!last(lastChild, size) && elements[lastChild+1] > elements[lastChild]){
                 lastChild+=1;
             }
             if(elements[index] >= elements[lastChild]){
@@ -108,21 +107,9 @@ class Heap{
             size_t n = inputElements.size();
             while(n>1){
                 // delete the maximum
-                std::cout<<"Before Swapping"<<std::endl;
-                std::cout<<"Swapping elements: 0: "<<inputElements[0]<<" "<<n-1<<": "<<inputElements[n-1]<<std::endl;
                 std::swap(inputElements[0],inputElements[n-1]);
-                std::cout<<"After Swapping"<<std::endl;
-                std::cout<<"Swapped elements: 0: "<<inputElements[0]<<" "<<n-1<<": "<<inputElements[n-1]<<std::endl;
-                for(int i=0; i<inputElements.size(); i++){
-                    std::cout<<inputElements[i]<<" ";
-                }
-                std::cout<<std::endl;
                 n--;
                 fix_down(inputElements, 0,n);
-                for(int i=0; i<inputElements.size(); i++){
-                    std::cout<<inputElements[i]<<" ";
-                }
-                std::cout<<std::endl<<std::endl;
             }
         }
 

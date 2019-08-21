@@ -16,6 +16,6 @@ void mergeSort(T& A, int begin, int end, T& temp);
 // Time Complexity: O(n log n)
 // Space Complexity: O(1)
 template<typename K>
-void heapSort(std::vector<K>&);
+void heapSort();
 
 #endif

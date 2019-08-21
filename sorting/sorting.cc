@@ -62,7 +62,7 @@ void mergeSort(T& A,  int begin, int end, T& temp){
 template<typename K>
 void heapSort(std::vector<K>& inputElements){
     Heap<K> heap(inputElements);
-    heap.sort(inputElements);
+    inputElements = heap.sort();
 }
 
 

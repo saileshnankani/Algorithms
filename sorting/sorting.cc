@@ -104,7 +104,7 @@ size_t choose_pivot(const K begin, const K end){
 // Time Complexity: still Theta(n log n)
 template<typename K>
 size_t choose_random_pivot(const K begin, const K end){
-    return (size_t)(rand()%(begin-end));
+    return (size_t)(rand()%(end-begin));
 }
 
 // Quick sort

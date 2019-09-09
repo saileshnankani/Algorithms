@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <utility>
+#include <cstdlib>
 #include "sorting.h"
 #include "../heap/heap.h"
 
@@ -65,19 +67,92 @@ void heapSort(std::vector<K>& inputElements){
     inputElements = heap.sort();
 }
 
+// partition function
+// Rearranges the container A to A' and returns pivot-index i 
+// so that pivot value A[p] is in the sorted position (i) in A' 
+// and A'[b] < A'[p] for b < p and A'[c] > A'[p] for c > p 
+template<typename K>
+size_t partition(const K begin, const K end, size_t p){
+    size_t size = end-begin;
+    std::swap(*(begin+p),*(begin+size-1));
+    auto val = *(begin+size-1);
+    int i = -1;
+    int j = size - 1;
+    while(i<j){
+        do
+        {
+            i++;
+        } while (i<size && *(begin+i)<val);
+        do{
+            j--;
+        }
+        while(j>0 && *(begin+j) > val);
+        if(i<j){
+            std::swap(*(begin+i),*(begin+j));
+        }
+    }
+    std::swap(*(begin+size-1),*(begin+i));
+    return i;
+}
+
+template<typename K>
+size_t choose_pivot(const K begin, const K end){
+    return end-begin-1;
+}
+
+// for randomized quick-sort
+// Time Complexity: still Theta(n log n)
+template<typename K>
+size_t choose_random_pivot(const K begin, const K end){
+    return (size_t)(rand()%(begin-end));
+}
+
+// Quick sort
+template<typename K>
+void quicksort(const K begin, const K end){
+    if(end-begin<=1) return;
+    size_t p = choose_pivot(begin,end);
+    size_t i = partition(begin, end,p);
+    quicksort(begin, begin+i);
+    quicksort(begin+i+1, end);
+}
+
+// Quickselect: To find the ith smallest element in an unordered list
+// Average case time complexity: Theta(n)
+// Worst case: Theta(n^2)
+// Best case: Theta(n)
+template<typename K>
+int quickselect(const K begin, const K end, size_t i){
+    size_t p = choose_random_pivot(begin, end);
+    size_t m = partition(begin, end, p);
+    if(m==i){
+        return *(begin+m);
+    }   
+    else if(m>i){
+        return quickselect(begin, begin+m, i);
+    }
+    else{
+        return quickselect(begin+m+1,end,i-m-1);
+    }
+} 
+
 
 int main(){
-    vector<int> a{6,5,3,4,2,0,1};
+    vector<int> a{6,5,3,4,2,-8,1};
     vector<double> b{6.5,5.1,3.8,4.9,2.9,0.1,1.5,1.6,1.2,3.2};
-    vector<int> c{25,1,2,-6,3,7,8,1,0,55,1,2,38,152};
+    vector<int> c{1,0,1};
+    vector<int> d{5,9,85,2,3,12,4,1,5,41,2,5};
+    vector<int> e{25,1,2,-6,3,7,8,1,0,55,1,2,38,152};
+    vector<int> f{6,5,3,4,2,-8,1};
     vector<int> temp;
     vector<double> temp2;
-    heapSort(a);
-    heapSort(b);
-    // mergeSort(a,0,a.size()-1,temp);
-    // mergeSort(b,0,b.size()-1,temp2);
+    mergeSort(b,0,b.size()-1,temp2);
     heapSort(c);
     print(a);
     print(b);
     print(c);
+    quicksort(a.begin(),a.end());
+    print(a);
+    quicksort(e.begin(),e.end());
+    print(e);
 }

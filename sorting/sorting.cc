@@ -2,6 +2,7 @@
 #include <iostream>
 #include <utility>
 #include <cstdlib>
+#include <array>
 #include "sorting.h"
 #include "../heap/heap.h"
 
@@ -136,6 +137,50 @@ int quickselect(const K begin, const K end, size_t i){
     }
 } 
 
+int get_dth_digit(int number, int d){
+    int digit = 0;
+    while(d>0 && number>0){
+        digit = number%10;
+        number/=10;
+        d--;
+    }
+    if(number==0){
+        return 0; // solves the left padding problem
+    }
+    return digit;
+}
+
+// CountSort
+// d is the digit we wish to sort
+// R is the base of the numbers to be sorted
+// Time Complexity: Theta(n+R)
+// Space Complexity: Theta(n+R)
+template<typename K>
+void key_based_index_count_sort(const K begin, const K end, int d, int R){
+    // count how many of each kind are
+    int size = end-begin;
+    int count[R] = {0};
+    for(int i=0; i<size; i++){
+        count[get_dth_digit(*(begin+i),d)]++;
+    }
+
+    // find left boundary for each kind
+    int idx[R] = {0};
+    for(int i=1; i<size; i++){
+        idx[i] = idx[i-1] + count[i-1];
+    } 
+
+    // move to a newly sorted order, then copy back
+    int aux[size] = {0};
+    for(int i=0; i<size; i++){
+        aux[idx[get_dth_digit(*(begin+i),d)]] = *(begin+i);
+        idx[get_dth_digit(*(begin+i),d)]++;
+    }
+
+    for(int i=0; i<size; i++){
+        *(begin+i) = aux[i];
+    }
+}
 
 int main(){
     vector<int> a{6,5,3,4,2,-8,1};
@@ -144,6 +189,7 @@ int main(){
     vector<int> d{5,9,85,2,3,12,4,1,5,41,2,5};
     vector<int> e{25,1,2,-6,3,7,8,1,0,55,1,2,38,152};
     vector<int> f{6,5,3,4,2,-8,1};
+    vector<int> g{123,230,21,320,210,232,101};
     vector<int> temp;
     vector<double> temp2;
     mergeSort(b,0,b.size()-1,temp2);
@@ -155,4 +201,6 @@ int main(){
     print(a);
     quicksort(e.begin(),e.end());
     print(e);
+    key_based_index_count_sort(g.begin(),g.end(),1,4);
+    print(g);
 }

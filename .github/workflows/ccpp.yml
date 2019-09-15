@@ -1,0 +1,29 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: make
+      run: make
+<<<<<<< HEAD
+<<<<<<< HEAD
+    - name: change permissions
+      run: chmod 770 ./heap/heap && chmod 770 ./sorting/sorting
+=======
+>>>>>>> ea82509... Update ccpp.yml
+    - name: run heap
+      run: ./heap/heap
+    - name: run sorting
+      run: ./sorting/sorting 
+  
+<<<<<<< HEAD
+=======
+>>>>>>> d443cac... Update ccpp.yml
+=======
+>>>>>>> ea82509... Update ccpp.yml

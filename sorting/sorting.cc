@@ -144,8 +144,8 @@ int get_dth_digit(int number, int d){
         number/=10;
         d--;
     }
-    if(number==0){
-        return 0; // solves the left padding problem
+    if(d>0){
+        return 0;
     }
     return digit;
 }
@@ -182,6 +182,19 @@ void key_based_index_count_sort(const K begin, const K end, int d, int R){
     }
 }
 
+// LSD-Radix-Sort (stable)
+// Sorts starting from least significant digit
+// m is the number of digits in the numbers
+// R is the radix
+// Time Complexity: Theta(m*(n+R))
+// Space Complexity: Theta(n+R)
+template<typename K>
+void LSD_radix_sort(const K begin, const K end, int m, int R){
+    for(int d=1; d<R; d++){
+        key_based_index_count_sort(begin, end,d,R);
+    }
+}
+
 int main(){
     vector<int> a{6,5,3,4,2,-8,1};
     vector<double> b{6.5,5.1,3.8,4.9,2.9,0.1,1.5,1.6,1.2,3.2};
@@ -201,6 +214,6 @@ int main(){
     print(a);
     quicksort(e.begin(),e.end());
     print(e);
-    key_based_index_count_sort(g.begin(),g.end(),1,4);
+    LSD_radix_sort(g.begin(),g.end(),3,4);
     print(g);
 }

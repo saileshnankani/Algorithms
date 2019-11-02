@@ -1,4 +1,4 @@
-#Dynamic programming
+# Dynamic programming
 
 Method to solve problems that have _optimal substructure_ i.e. need to solve subproblems optimally to solve the original problem. Also need subproblems to overlap, but to not share resources i.e. they are independent. 
 

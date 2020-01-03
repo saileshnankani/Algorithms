@@ -68,19 +68,9 @@ class BST{
             }
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         friend std::ostream& operator<<(std::ostream& out, const BST& other){
             if(other.root){
                 std::cout<<other.root->left<<std::endl;
-=======
-        friend std::ostream& operator<<(std::ostream& out, const BST& other){
-            if(other.root){
-                std::cout<<"YAY"<<std::endl;
-                std::cout<<other.root->left<<std::endl;
-                std::cout<<"HEY"<<std::endl;
->>>>>>> c327ed9... WIP: Dictionaries and DP
                 out<<other.root->left<<"("+ std::to_string(other.root->element.first)+","+ std::to_string(other.root->element.second)+") "<<other.root->right;
             }
             else{
@@ -88,9 +78,5 @@ class BST{
             }
         }
 };
-<<<<<<< HEAD
->>>>>>> 154c0ba... Cleaned up
-=======
->>>>>>> c327ed9... WIP: Dictionaries and DP
 
 #endif
